@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema targetNamespace="resource"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+    <xs:complexType name="listType">
+     <xs:sequence>
+      <xs:element name="display-name" type="display-nameType" minOccurs="0"/>
+      <!--xs:sequence minOccurs="0" maxOccurs="unbounded"-->
+       <!--xs:choice -->
+        <!--xs:element name="list" minOccurs="0" maxOccurs="unbounded">
+         <xs:complexType>
+          <xs:complexContent>
+           <xs:extension base="listType"/>
+          </xs:complexContent>
+         </xs:complexType>
+        </xs:element-->
+        <xs:element name="external" type="externalType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="entry" type="entryType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="entry-ref" type="entry-refType" minOccurs="0" maxOccurs="unbounded"/>
+       <!-- /xs:choice -->
+      <!--/xs:sequence-->
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+     </xs:sequence>
+     <xs:attribute name="name" type="xs:string" use="optional"/>
+     <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="entryType">
+     <xs:sequence>
+      <xs:element name="display-name" type="display-nameType" minOccurs="0">
+       <!--xs:complexType>
+        <xs:simpleContent>
+         <xs:extension base="display-nameType"/>
+        </xs:simpleContent>
+       </xs:complexType-->
+      </xs:element>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+     </xs:sequence>
+     <xs:attribute name="uri" type="xs:anyURI" use="required"/>
+     <!--  ext  -->
+     <!--xs:attribute name="copyControl">
+      <xs:simpleType>
+       <xs:restriction base="xs:string">
+        <xs:enumeration value="to"/>
+        <xs:enumeration value="cc"/>
+        <xs:enumeration value="bcc"/>
+       </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute -->
+      <xs:attribute name="copyControl" type="xs:string"/>
+      <xs:attribute name="anonymize" type="xs:boolean" default="false"/>
+      <xs:attribute name="count" type="xs:long" default="1"/>
+     <!--  ext  -->
+
+     <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="entry-refType">
+     <xs:sequence>
+      <xs:element name="display-name" type="display-nameType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+     </xs:sequence>
+     <xs:attribute name="ref" type="xs:anyURI" use="required"/>
+     <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:complexType name="externalType">
+     <xs:sequence>
+      <xs:element name="display-name" type="display-nameType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+     </xs:sequence>
+     <xs:attribute name="anchor" type="xs:anyURI"/>
+     <xs:anyAttribute namespace="##other" processContents="lax"/>
+    </xs:complexType>
+    <xs:element name="resource-lists">
+     <xs:complexType>
+      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+       <xs:element name="list" type="listType"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+    <xs:complexType name="display-nameType">
+     <!--xs:simpleContent-->
+      <xs:extension base="xs:string"/>
+      <xs:attribute name="lang" type="xs:string"/>
+     <!--/xs:simpleContent-->
+    </xs:complexType>
+</xs:schema>
+

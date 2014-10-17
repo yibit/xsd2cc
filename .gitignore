@@ -1,0 +1,16 @@
+*.o
+*_test
+*_test_*
+*_smaple
+*_sample_*
+*.a*
+*.so*
+*.sl*
+history.txt
+.progs_config
+.prog_config0
+.prog_config1
+*.mk
+*.bak
+*~
+

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema targetNamespace="UserSecSettings"
+    xmlns:tns="UserSecSettings"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    attributeFormDefault="unqualified">
+
+  <!-- This import brings in the XML language attribute xml:lang-->
+  <!--xs:import namespace="http://www.w3.org/XML/1998/namespace"
+      schemaLocation="http://www.w3.org/2001/xml.xsd"-->
+
+  <!-- Root element to be used in Zh reference point-->
+  <xs:element name="guss" type="tns:gussType"/>
+
+  <!-- Root element to be used in Zn reference point-->
+  <xs:element name="ussList" type="tns:ussListType"/>
+
+  <xs:complexType name="ExtensionType">
+    <xs:sequence>
+      <!--xs:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/-->
+      <xs:element name="ext" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="GUSSExtensionType">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="Extension" type="tns:ExtensionType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="USSExtensionType">
+    <xs:sequence>
+      <xs:element name="keyChoice" type="xs:string" minOccurs="0" />
+      <xs:element name="Extension" type="tns:ExtensionType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- The whole users GBA specific data set  -->
+  <xs:complexType name="gussType">
+    <xs:sequence>
+       <xs:element name="bsfInfo" type="tns:bsfInfoType" minOccurs="0"/>
+       <xs:element name="ussList" type="tns:ussListType" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element name="Extension" type="tns:GUSSExtensionType" minOccurs="0"/>
+       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- BSF specific information element -->
+  <xs:complexType name="bsfInfoType">
+    <xs:sequence>
+      <xs:element name="uiccType"  type="xs:string"  minOccurs="0" />
+      <xs:element name="lifeTime"  type="xs:integer" minOccurs="0" />
+      <xs:element name="securityFeatures"  type="xs:string" minOccurs="0" />
+      <xs:element name="Extension" type="tns:ExtensionType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!--List of all users individual User Security Settings -->
+  <xs:complexType name="ussListType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+       <xs:element name="uss" type="tns:ussType"/>
+       <xs:element name="Extension" type="tns:ExtensionType" minOccurs="0"/>
+       <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- User Security Setting data -->
+  <xs:complexType name="ussType">
+    <xs:sequence>
+      <xs:element name="uids" type="tns:uidsType"/>
+      <xs:element name="flags" type="tns:flagsType"/>
+      <xs:element name="Extension" type="tns:USSExtensionType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="id"   use="required" type="xs:string"/>
+    <xs:attribute name="type" use="required" type="xs:int"/>
+    <xs:attribute name="nafGroup" use="optional" type="xs:string"/>
+  </xs:complexType>
+
+  <!-- User Public Identities for authentication -->
+  <xs:complexType name="uidsType">
+    <xs:sequence minOccurs="1" maxOccurs="unbounded">
+      <xs:element name="uid"  type="xs:string"/>
+      <xs:element name="Extension" type="tns:ExtensionType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- GAA Application type specific Authorization flag codes -->
+  <xs:complexType name="flagsType">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="flag"  type="xs:int"/>
+      <xs:element name="Extension" type="tns:ExtensionType" minOccurs="0"/>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>
