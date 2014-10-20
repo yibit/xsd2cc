@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 
-#include <string.h>
 #include <string>
 #include <iostream>
 #include "resource_test.h"
@@ -50,7 +49,7 @@ main(int agrc, char *argv[])
 
   resource.SetNsPrefix(ns_prefix);
   resource.SetNsDeclaration(ns_decl);
-  std::cout << resource.ToString(true,"resource-lists") << std::endl;
+  std::cout << resource.ToString(true, "resource-lists") << std::endl;
   if (resource.IsSet() && resource.ListIsSet()) {
     resource::ListType list = resource.GetList();
     if (list.IsSet() && list.EntryIsSet()) {
@@ -62,6 +61,31 @@ main(int agrc, char *argv[])
          }
        }
      }
+  }
+
+  const std::string test2="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
+  <resource-lists>\
+     <list>\
+     </list>\
+   </resource-lists>";
+
+  resource::Resource_lists resource2;
+  if (!resource2.FromXml(test2)) {
+    return -1;
+   }
+
+  std::cout << resource2.ToString(true, "resource-lists") << std::endl;
+
+  resource2.SetNsPrefix(ns_prefix);
+  resource2.SetNsDeclaration(ns_decl);
+  std::cout << resource2.ToString(true, "resource-lists") << std::endl;
+
+  if (!resource2.GetList().IsSet()) {
+    std::cout << "resource2.GetList().IsSet() is false" << std::endl;
+  }
+
+  if (resource2.GetList().IsSetted()) {
+    std::cout << "resource2.GetList().IsSetted() is true" << std::endl;
   }
 
   return 0;

@@ -761,10 +761,17 @@ void ComplexType::from_xml(std::list<std::pair<std::string, XmlNode> >& members,
 void ComplexType::to_string(std::list<std::pair<std::string, XmlNode> >& members,
                             std::list<std::pair<std::string, XmlNode> >& attrs, FILE *file) const
 {
-  fprintf(file,"  std::string xmlHead = \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\";\n");
-  fprintf(file, "  std::string r;\n");
+  fprintf(file, "  std::string xmlHead = \"<?xml version=\\\"1.0\\\" encoding=\\\"UTF-8\\\"?>\";\n");
+  fprintf(file, "  std::string r;\n\n");
 
-  fprintf(file,"  if (partid == 1 || partid > 2)\n  {\n");
+  fprintf(file, "  if (!IsSet() && IsSetted() && !name.empty())\n  {\n");
+  fprintf(file, "    if (needXmlHead)\n");
+  fprintf(file, "      r += xmlHead;\n");
+  fprintf(file, "    r += \"<\" + (ns_prefix_.empty() ? \"\" : ns_prefix_ + \":\") + name + (ns_declaration_.empty()?\"\": \" \" + ns_declaration_) + \"/>\";\n\n");
+  fprintf(file, "    return r;\n");
+  fprintf(file,"  }\n\n");
+
+  fprintf(file, "  if (partid == 1 || partid > 2)\n  {\n");
   fprintf(file, "    if (needXmlHead)\n");
   fprintf(file, "      r += xmlHead;\n");
 
@@ -890,7 +897,7 @@ void ComplexType::to_string(std::list<std::pair<std::string, XmlNode> >& members
     fprintf(file, "    r += mixed_content_;\n");
   }
 
-  fprintf(file,"  }\n");
+  fprintf(file,"  }\n\n");
 
   fprintf(file,"  if (partid >= 2)\n  {\n");
   if (!extends_.empty()) {
@@ -899,7 +906,7 @@ void ComplexType::to_string(std::list<std::pair<std::string, XmlNode> >& members
 
   fprintf(file, "    if (!name.empty())\n  ");
   fprintf(file, "    r += \"</\" + (ns_prefix_.empty() ? \"\" : ns_prefix_ + \":\") + name + \">\";\n");  
-  fprintf(file,"  }\n");
+  fprintf(file,"  }\n\n");
 
   fprintf(file, "  return r;\n");
 }
