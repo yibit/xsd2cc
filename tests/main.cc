@@ -42,7 +42,7 @@ main(int agrc, char *argv[])
   resource::Resource_lists resource;
   if (!resource.FromXml(test1)) {
     return -1;
-   }
+  }
 
   std::string ns_prefix = "cp";
   std::string ns_decl = "xmlns=\"http://uri.etsi.org/ngn/params/xml/simservs/xcap\" xmlns:cp=\"urn:ietf:params:xml:ns:common-policy\"";
@@ -58,9 +58,9 @@ main(int agrc, char *argv[])
         if (ev[i].IsSet()) {
           std::cout << "uri: " << ev[i].GetUri() << std::endl;
           std::cout << "copyControl: " << ev[i].GetCopyControl() << std::endl;
-         }
-       }
-     }
+        }
+      }
+    }
   }
 
   const std::string test2="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
@@ -72,7 +72,7 @@ main(int agrc, char *argv[])
   resource::Resource_lists resource2;
   if (!resource2.FromXml(test2)) {
     return -1;
-   }
+  }
 
   std::cout << resource2.ToString(true, "resource-lists") << std::endl;
 
