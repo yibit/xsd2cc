@@ -1,3 +1,4 @@
+
 Name
 ======
 
@@ -8,6 +9,12 @@ Dependencies
 ==============
 
 __libxml2__ is required. Also see [http://xmlsoft.org](http://xmlsoft.org).
+
+
+Status
+==============
+
+This library is already quite usable and tested on __Linux, AIX, HP-UX and Mac OSX__.
 
 
 Build and Install
