@@ -20,6 +20,9 @@ MY_LIBS= -L../src -lxsd2cc -lxml2
 
 all: xsd2cc cc_bin
 
+test: cc_bin
+	./$(CC_bin)
+
 resource_test.cc: xsd2cc
 
 xsd2cc: 

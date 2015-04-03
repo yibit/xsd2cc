@@ -771,7 +771,7 @@ bool Xsd::CreateImplementation()
   }
 
   AddLicense(file); 
-  fprintf(file, "\n#include <string.h>\n", h_fileename.c_str());
+  fprintf(file, "\n#include <string.h>\n");
   fprintf(file, "#include \"%s\"\n\n", h_fileename.c_str());
   fprintf(file, "\n");
 

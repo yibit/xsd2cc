@@ -54,8 +54,8 @@ XSD2CC_HEADERS= \
 
 all $(Static_lib): static_lib cc_bin
 
-test: $(Static_lib) ../tools/xsd2cc_run.sh
-	sh ../tools/xsd2cc_run.sh ../tests
+test: $(Static_lib)
+	cd ../tests && make test
 
 check: test
 

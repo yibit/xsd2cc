@@ -993,7 +993,7 @@ void ComplexType::CreateImplementation(FILE *file) const
     }
 
     sprintf(isSetBuff + strlen(isSetBuff), "}\n\n\n");  
-    fprintf(file, isSetBuff);  
+    fprintf(file, "%s", isSetBuff);  
   }
 
   fprintf(file, "void %s::SetNsPrefix(std::string& prefix) \n{\n", classname.c_str());
