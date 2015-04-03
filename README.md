@@ -30,9 +30,7 @@ __Note: outputs are xsd2cc and libxsd2cc.a__
 Test and Usage
 ================
 
-    cd tests
-    make
-    ./resource_test
+    make test
 
 
 Authors
