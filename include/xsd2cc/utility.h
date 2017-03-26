@@ -62,8 +62,6 @@ class Utility {
 
   static const Path CurrentDirectory();
   static bool ChangeDirectory(const Path& to_dir);
-
-  static void Sleep(int ms);
 };
 
 } // namespace
