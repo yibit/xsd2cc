@@ -12,5 +12,7 @@ history.txt
 .prog_config1
 *.mk
 *.bak
+.DS_Store
 *~
+./src/xsd2cc
 
