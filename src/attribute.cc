@@ -18,27 +18,23 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #include <xsd2cc/attribute.h>
-#include <xsd2cc/xml_node.h>
-#include <xsd2cc/xsd.h>
 #include <xsd2cc/simple_type.h>
 #include <xsd2cc/split.h>
 #include <xsd2cc/type_base.h>
-
+#include <xsd2cc/xml_node.h>
+#include <xsd2cc/xsd.h>
 
 namespace xsd2cc {
 
-Attribute::Attribute(const Xsd& xsd,
-                     const XmlNode& node, 
-                     const std::string& name, 
-                     const std::string& ns_prefix)
-    : TypeBase(xsd, node, ns_prefix, Split(name).Type), 
-      name_(!name.empty() ? name : node.PropertyExists("name") ? node.GetProperty("name") : ""), 
-      b_default_is_set_(false), 
-      b_fixed_is_set_(false)
-{
-
+Attribute::Attribute(const Xsd& xsd, const XmlNode& node,
+                     const std::string& name, const std::string& ns_prefix)
+    : TypeBase(xsd, node, ns_prefix, Split(name).Type),
+      name_(!name.empty()
+                ? name
+                : node.PropertyExists("name") ? node.GetProperty("name") : ""),
+      b_default_is_set_(false),
+      b_fixed_is_set_(false) {
   std::string type;
   if (node.PropertyExists("type")) {
     type = node.GetProperty("type");
@@ -77,39 +73,19 @@ Attribute::Attribute(const Xsd& xsd,
   base_type_ = t;
 }
 
-
-const std::string Attribute::Documentation() const
-{
+const std::string Attribute::Documentation() const {
   return TypeBase::Documentation(node_);
 }
 
+const std::string Attribute::CType() const { return TypeBase::CType(); }
 
-const std::string Attribute::CType() const
-{
-  return TypeBase::CType();
-}
+const std::string Attribute::CName() const { return Split(name_).CName; }
 
+const std::string Attribute::CName1up() const { return Split(name_).CName1up; }
 
-const std::string Attribute::CName() const
-{
-  return Split(name_).CName;
-}
+bool Attribute::IsOptional() const { return use_ != "required"; }
 
-
-const std::string Attribute::CName1up() const
-{
-  return Split(name_).CName1up;
-}
-
-
-bool Attribute::IsOptional() const
-{
-  return use_ != "required";
-}
-
-
-const std::string Attribute::CType_decl() const
-{
+const std::string Attribute::CType_decl() const {
   std::string t = TypeBase::CType();
   if (IsSimpleType()) {
     XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
@@ -120,9 +96,7 @@ const std::string Attribute::CType_decl() const
   return t;
 }
 
-
-const std::string Attribute::CType_in() const
-{
+const std::string Attribute::CType_in() const {
   std::string t = TypeBase::CType();
   if (IsSimpleType()) {
     XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
@@ -141,9 +115,7 @@ const std::string Attribute::CType_in() const
   return t;
 }
 
-
-const std::string Attribute::CType_out() const
-{
+const std::string Attribute::CType_out() const {
   std::string t = TypeBase::CType();
   if (IsSimpleType()) {
     XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
@@ -162,25 +134,20 @@ const std::string Attribute::CType_out() const
   return t;
 }
 
-
-const std::string Attribute::DefaultValue() const
-{
+const std::string Attribute::DefaultValue() const {
   switch (TypeClass()) {
-  case kNUMBER:
-    return "0";
+    case kNUMBER:
+      return "0";
 
-  case kBOOLEAN:
-    return "false";
+    case kBOOLEAN:
+      return "false";
 
-  default:
-    return "";
+    default:
+      return "";
   }
-
 }
 
-
-bool Attribute::IsSimpleType() const
-{
+bool Attribute::IsSimpleType() const {
   if (IsBuiltin()) {
     return false;
   }
@@ -193,5 +160,4 @@ bool Attribute::IsSimpleType() const
   return false;
 }
 
-} // namespace xsd2cc
-
+}  // namespace xsd2cc

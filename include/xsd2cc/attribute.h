@@ -18,14 +18,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_ATTRIBUTE_H_INCLUDED_
 #define XSD2CC_ATTRIBUTE_H_INCLUDED_
 
-
-#include <string>
 #include <xsd2cc/type_base.h>
-
+#include <string>
 
 namespace xsd2cc {
 
@@ -33,9 +30,7 @@ class Xsd;
 
 class Attribute : public TypeBase {
  public:
-  Attribute(const Xsd& xsd,
-            const XmlNode& node,
-            const std::string& name = "",
+  Attribute(const Xsd& xsd, const XmlNode& node, const std::string& name = "",
             const std::string& ns_prefix = "");
 
   ~Attribute() {}
@@ -65,14 +60,13 @@ class Attribute : public TypeBase {
  private:
   bool b_default_is_set_;
   bool b_fixed_is_set_;
-  std::string  name_;
-  std::string  base_type_;
-  std::string  use_;
-  std::string  fixed_;
-  std::string  default_;
+  std::string name_;
+  std::string base_type_;
+  std::string use_;
+  std::string fixed_;
+  std::string default_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_ATTRIBUTE_H_INCLUDED_
-
+#endif  // XSD2CC_ATTRIBUTE_H_INCLUDED_

@@ -18,27 +18,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <xsd2cc/application.h>
 #include <iostream>
 
-
 namespace xsd2cc {
 
-Application::Application(int argc, char *argv[]) 
-    : lt_("std::vector"),
-      todir_(".")
-{
+Application::Application(int argc, char* argv[])
+    : lt_("std::vector"), todir_(".") {
   if (argc < 2) {
     printf("Usage: %s [options] <.xsd filename>\n", *argv);
     printf("    -namespace <ns>        Define a global namespace\n");
     printf("    -classname <name>      C++ Classname\n");
     printf("    -lt <type>             Vector type (default: std::vector)\n");
-    printf("    -ns <href> <prefix>    Use 'prefix' as C++ namespace for xml namespace 'href'\n");
+    printf(
+        "    -ns <href> <prefix>    Use 'prefix' as C++ namespace for xml "
+        "namespace 'href'\n");
     printf("    -todir <dir>           Create files in <dir>\n");
     exit(-1);
   }
@@ -67,18 +65,15 @@ Application::Application(int argc, char *argv[])
     }
   }
 
-  for (char *s = (char *)classname_.c_str(); *s; s++) {
-    if (*s == '.' || *s == '-' || *s == '+' || *s == '%')
-      *s = '_';
+  for (char* s = (char*)classname_.c_str(); *s; s++) {
+    if (*s == '.' || *s == '-' || *s == '+' || *s == '%') *s = '_';
   }
-
 }
 
-
-FILE *Application::myfopen(const std::string& filename, const std::string& mode)
-{
+FILE* Application::myfopen(const std::string& filename,
+                           const std::string& mode) {
   unlink(filename.c_str());
-  FILE *file = fopen(filename.c_str(), mode.c_str());
+  FILE* file = fopen(filename.c_str(), mode.c_str());
   if (!file) {
     std::cout << "Couldn't open file: " + filename << std::endl;
     return NULL;
@@ -87,16 +82,13 @@ FILE *Application::myfopen(const std::string& filename, const std::string& mode)
   return file;
 }
 
-
-const std::string Application::Href2Prefix(const std::string& ns_href) const
-{
+const std::string Application::Href2Prefix(const std::string& ns_href) const {
   std::map<std::string, std::string>::const_iterator it = nsmap_.find(ns_href);
   if (it != nsmap_.end()) {
-    return it -> second;
+    return it->second;
   }
 
   return "";
 }
 
-} // namespace xsd2cc
-
+}  // namespace xsd2cc

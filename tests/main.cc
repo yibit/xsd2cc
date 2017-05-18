@@ -17,16 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-#include <string>
 #include <iostream>
+#include <string>
 #include "resource_test.h"
 
-
-int 
-main(int agrc, char *argv[])
-{
-  const std::string test1="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
+int main(int agrc, char* argv[]) {
+  const std::string test1 =
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
   <resource-lists>\
      <list>\
        <entry uri=\"sip:bill@example.com\" copyControl=\"to\" />\
@@ -45,7 +42,9 @@ main(int agrc, char *argv[])
   }
 
   std::string ns_prefix = "cp";
-  std::string ns_decl = "xmlns=\"http://uri.etsi.org/ngn/params/xml/simservs/xcap\" xmlns:cp=\"urn:ietf:params:xml:ns:common-policy\"";
+  std::string ns_decl =
+      "xmlns=\"http://uri.etsi.org/ngn/params/xml/simservs/xcap\" "
+      "xmlns:cp=\"urn:ietf:params:xml:ns:common-policy\"";
 
   resource.SetNsPrefix(ns_prefix);
   resource.SetNsDeclaration(ns_decl);
@@ -63,7 +62,8 @@ main(int agrc, char *argv[])
     }
   }
 
-  const std::string test2="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
+  const std::string test2 =
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\
   <resource-lists>\
      <list>\
      </list>\
@@ -90,4 +90,3 @@ main(int agrc, char *argv[])
 
   return 0;
 }
-

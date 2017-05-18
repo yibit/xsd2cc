@@ -17,10 +17,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_XSD2CC_H_INCLUDED_
 #define XSD2CC_XSD2CC_H_INCLUDED_
-
 
 namespace xsd2cc {
 
@@ -28,13 +26,10 @@ class XmlDocument;
 class XmlNode;
 class Utility;
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-
+#include <xsd2cc/utility.h>
 #include <xsd2cc/xml_document.h>
 #include <xsd2cc/xml_node.h>
-#include <xsd2cc/utility.h>
 
-
-#endif // XSD2CC_XSD2CC_H_INCLUDED_
-
+#endif  // XSD2CC_XSD2CC_H_INCLUDED_

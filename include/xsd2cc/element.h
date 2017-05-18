@@ -18,14 +18,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_ELEMENT_H_INCLUDED_
 #define XSD2CC_ELEMENT_H_INCLUDED_
 
-
-#include <string>
 #include <xsd2cc/type_base.h>
-
+#include <string>
 
 namespace xsd2cc {
 
@@ -34,12 +31,8 @@ class Application;
 
 class Element : public TypeBase {
  public:
-  Element(const Xsd& xsd,
-          const XmlNode& node, 
-          bool in_sequence, 
-          bool in_choice, 
-          const std::string& name = "", 
-          const std::string& ns_prefix = "");
+  Element(const Xsd& xsd, const XmlNode& node, bool in_sequence, bool in_choice,
+          const std::string& name = "", const std::string& ns_prefix = "");
 
   ~Element() {}
 
@@ -47,7 +40,7 @@ class Element : public TypeBase {
   const std::string& BaseType() const { return base_type_; }
   const std::string Documentation() const;
 
-  void CreateInterface(FILE *file) const;
+  void CreateInterface(FILE* file) const;
 
   bool IsOptional() const { return minOccurs_ == 0; }
   bool IsVector() const { return maxOccurs_ > 1 || maxOccurs_ == -1; }
@@ -68,15 +61,14 @@ class Element : public TypeBase {
 
  private:
   Application& app_;
-  std::string  name_;
-  std::string  base_type_;
-  int          minOccurs_;
-  int          maxOccurs_;
-  bool         has_default_;
-  std::string  default_;
+  std::string name_;
+  std::string base_type_;
+  int minOccurs_;
+  int maxOccurs_;
+  bool has_default_;
+  std::string default_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_ELEMENT_H_INCLUDED_
-
+#endif  // XSD2CC_ELEMENT_H_INCLUDED_

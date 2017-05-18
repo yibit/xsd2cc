@@ -18,17 +18,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_XML_NODE_H_INCLUDED_
 #define XSD2CC_XML_NODE_H_INCLUDED_
-
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 #include <map>
 #include <string>
-
 
 namespace xsd2cc {
 
@@ -84,8 +81,8 @@ class XmlNode {
   const std::string& GetNodeNsHref() const;
 
   xmlNodePtr GetFirstElement(const std::string& name) const;
-  xmlNodePtr GetFirstElement(xmlNodePtr parent,const std::string& name) const;
-  xmlNodePtr GetNextElement(xmlNodePtr node,const std::string& name) const;
+  xmlNodePtr GetFirstElement(xmlNodePtr parent, const std::string& name) const;
+  xmlNodePtr GetNextElement(xmlNodePtr node, const std::string& name) const;
 
   bool Exists(const std::string& name) const;
 
@@ -93,7 +90,8 @@ class XmlNode {
 
   std::map<std::string, std::string> GetNsMapRe() const;
 
-  const std::string FindProperty(const std::string& propname, bool climb = false) const;
+  const std::string FindProperty(const std::string& propname,
+                                 bool climb = false) const;
 
  private:
   xmlDocPtr doc_;
@@ -105,7 +103,6 @@ class XmlNode {
   mutable std::string lookup_name_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_XML_NODE_H_INCLUDED_
-
+#endif  // XSD2CC_XML_NODE_H_INCLUDED_

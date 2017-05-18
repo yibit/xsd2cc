@@ -18,16 +18,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_XML_DOCUMENT_H_INCLUDED_
 #define XSD2CC_XML_DOCUMENT_H_INCLUDED_
-
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
 #include <string>
-
 
 namespace xsd2cc {
 
@@ -37,11 +34,10 @@ class XmlDocument {
 
   virtual ~XmlDocument();
 
-  bool Load(const std::string& filename,
-            const std::string& verify_ns = "",
+  bool Load(const std::string& filename, const std::string& verify_ns = "",
             const std::string& verify_root = "");
 
-  bool Load(const char *buffer, int size);
+  bool Load(const char* buffer, int size);
 
   bool Load(const std::string& str, int size);
 
@@ -50,16 +46,15 @@ class XmlDocument {
   operator xmlDocPtr();
 
  protected:
-  XmlDocument(const XmlDocument& ) {}
+  XmlDocument(const XmlDocument&) {}
 
  private:
-  XmlDocument& operator=(const XmlDocument& ) { return *this; }
+  XmlDocument& operator=(const XmlDocument&) { return *this; }
 
  private:
   xmlDocPtr doc_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_XML_DOCUMENT_H_INCLUDED_
-
+#endif  // XSD2CC_XML_DOCUMENT_H_INCLUDED_

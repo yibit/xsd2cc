@@ -18,14 +18,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_SPLIT_H_INCLUDED_
 #define XSD2CC_SPLIT_H_INCLUDED_
 
-
-#include <string>
 #include <xsd2cc/parse.h>
-
+#include <string>
 
 namespace xsd2cc {
 
@@ -46,16 +43,16 @@ class Split {
 
     for (size_t i = 0; i < Type.size(); i++) {
       switch (Type[i]) {
-      default:
-        CName += (!isalnum(Type[i]) ? '_' : Type[i]); // "_" ?
+        default:
+          CName += (!isalnum(Type[i]) ? '_' : Type[i]);  // "_" ?
       }
 
-    CName1up = CName;
-    if (!CName1up.empty() && CName1up[0] >= 'a' && CName1up[0] <= 'z') {
-      CName1up[0] = (char)CName1up[0] - 32;
+      CName1up = CName;
+      if (!CName1up.empty() && CName1up[0] >= 'a' && CName1up[0] <= 'z') {
+        CName1up[0] = (char)CName1up[0] - 32;
+      }
     }
   }
-}
 
  private:
   Split(const Split&);
@@ -68,7 +65,6 @@ class Split {
   std::string CName1up;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_SPLIT_H_INCLUDED_
-
+#endif  // XSD2CC_SPLIT_H_INCLUDED_

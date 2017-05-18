@@ -18,15 +18,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_SIMPLE_TYPE_H_INCLUDED_
 #define XSD2CC_SIMPLE_TYPE_H_INCLUDED_
 
-
+#include <xsd2cc/type_base.h>
 #include <string>
 #include <vector>
-#include <xsd2cc/type_base.h>
-
 
 namespace xsd2cc {
 
@@ -34,9 +31,7 @@ class Xsd;
 
 class SimpleType : public TypeBase {
  public:
-  SimpleType(const Xsd& xsd,
-             const XmlNode& node, 
-             const std::string& name = "", 
+  SimpleType(const Xsd& xsd, const XmlNode& node, const std::string& name = "",
              const std::string& ns_prefix = "");
 
   ~SimpleType() {}
@@ -45,17 +40,16 @@ class SimpleType : public TypeBase {
 
   const std::string Documentation() const;
 
-  void CreateInterface(FILE *file, int lvl = 1) const;
+  void CreateInterface(FILE* file, int lvl = 1) const;
 
   const std::string CType() const;
 
  private:
-  std::string               name_;
-  std::vector<std::string>  enum_values_;
-  std::vector<std::string>  pattern_values_; // using re2 to check
+  std::string name_;
+  std::vector<std::string> enum_values_;
+  std::vector<std::string> pattern_values_;  // using re2 to check
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_SIMPLE_TYPE_H_INCLUDED_
-
+#endif  // XSD2CC_SIMPLE_TYPE_H_INCLUDED_

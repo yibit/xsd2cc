@@ -18,21 +18,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_APPLICATION_H_INCLUDED_
 #define XSD2CC_APPLICATION_H_INCLUDED_
-
 
 #include <stdio.h>
 #include <map>
 #include <string>
 
-
 namespace xsd2cc {
 
 class Application {
  public:
-  Application(int argc, char *argv[]);
+  Application(int argc, char* argv[]);
   ~Application() {}
 
   const std::string& Filename() const { return filename_; }
@@ -42,7 +39,7 @@ class Application {
   const std::string& ListType() const { return lt_; }
   const std::string& ToDir() const { return todir_; }
 
-  FILE *myfopen(const std::string& filename, const std::string& mode);
+  FILE* myfopen(const std::string& filename, const std::string& mode);
 
   const std::string Href2Prefix(const std::string& ns_href) const;
 
@@ -56,7 +53,6 @@ class Application {
   std::map<std::string, std::string> nsmap_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_APPLICATION_H_INCLUDED_
-
+#endif  // XSD2CC_APPLICATION_H_INCLUDED_

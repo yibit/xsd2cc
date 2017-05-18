@@ -18,20 +18,17 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #include <stdio.h>
-#include <time.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/time.h>
+#include <sys/types.h>
+#include <time.h>
 #include <unistd.h>
 #include <xsd2cc/utility.h>
 
-
 namespace xsd2cc {
 
-std::string Utility::l2string(long l)
-{
+std::string Utility::l2string(long l) {
   std::string str;
   char tmp[64];
   snprintf(tmp, sizeof(tmp), "%ld", l);
@@ -40,9 +37,7 @@ std::string Utility::l2string(long l)
   return str;
 }
 
-
-std::string Utility::bigint2string(int64_t l)
-{
+std::string Utility::bigint2string(int64_t l) {
   std::string str;
   int64_t tmp = l;
   if (l < 0) {
@@ -63,9 +58,7 @@ std::string Utility::bigint2string(int64_t l)
   return str;
 }
 
-
-std::string Utility::bigint2string(uint64_t l)
-{
+std::string Utility::bigint2string(uint64_t l) {
   std::string str;
   uint64_t tmp = l;
   while (tmp) {
@@ -81,9 +74,7 @@ std::string Utility::bigint2string(uint64_t l)
   return str;
 }
 
-
-std::string Utility::ToLower(const std::string& str)
-{
+std::string Utility::ToLower(const std::string& str) {
   std::string r;
   for (size_t i = 0; i < str.size(); ++i) {
     if (str[i] >= 'A' && str[i] <= 'Z') {
@@ -96,9 +87,7 @@ std::string Utility::ToLower(const std::string& str)
   return r;
 }
 
-
-std::string Utility::ToUpper(const std::string& str)
-{
+std::string Utility::ToUpper(const std::string& str) {
   std::string r;
   for (size_t i = 0; i < str.size(); ++i) {
     if (str[i] >= 'a' && str[i] <= 'z') {
@@ -111,17 +100,13 @@ std::string Utility::ToUpper(const std::string& str)
   return r;
 }
 
-
-std::string Utility::ToString(double d)
-{
+std::string Utility::ToString(double d) {
   char tmp[100];
   snprintf(tmp, sizeof(tmp), "%f", d);
   return tmp;
 }
 
-
-Utility::Path::Path(const std::string& _str)
-{
+Utility::Path::Path(const std::string& _str) {
   std::string str = _str;
   for (size_t i = 0; i < str.size(); ++i) {
     if (str[i] == '\\') {
@@ -143,21 +128,17 @@ Utility::Path::Path(const std::string& _str)
       ext_ = file_.substr(i + 1);
     }
   }
-
 }
 
-
-const std::string Utility::FromUtf8(const std::string& str)
-{
+const std::string Utility::FromUtf8(const std::string& str) {
   if (!str.size()) {
     return "";
   }
 
   std::string r;
   for (size_t i = 0; i < str.size(); ++i) {
-    if (i < str.size() - 1 && (str[i] & 0xe0) == 0xc0
-      && (str[i + 1] & 0xc0) == 0x80)
-     {
+    if (i < str.size() - 1 && (str[i] & 0xe0) == 0xc0 &&
+        (str[i + 1] & 0xc0) == 0x80) {
       int c1 = str[i] & 0x1f;
       int c2 = str[++i] & 0x3f;
       int c = (c1 << 6) + c2;
@@ -170,9 +151,7 @@ const std::string Utility::FromUtf8(const std::string& str)
   return r;
 }
 
-
-const std::string Utility::ToUtf8(const std::string& str)
-{
+const std::string Utility::ToUtf8(const std::string& str) {
   if (str.empty()) {
     return "";
   }
@@ -190,9 +169,7 @@ const std::string Utility::ToUtf8(const std::string& str)
   return r;
 }
 
-
-const Utility::Path Utility::CurrentDirectory()
-{
+const Utility::Path Utility::CurrentDirectory() {
   char slask[32000];
   if (!getcwd(slask, 32000)) {
     return Path(".");
@@ -201,16 +178,12 @@ const Utility::Path Utility::CurrentDirectory()
   return Path(slask);
 }
 
-
-bool Utility::ChangeDirectory(const Utility::Path& to_dir)
-{
-  if (chdir( to_dir.GetPath().c_str() ) == -1){
+bool Utility::ChangeDirectory(const Utility::Path& to_dir) {
+  if (chdir(to_dir.GetPath().c_str()) == -1) {
     return false;
   }
 
   return true;
 }
 
-
-} // namespace xsd2cc
-
+}  // namespace xsd2cc

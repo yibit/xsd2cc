@@ -18,20 +18,16 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-#include <xsd2cc/xml_document.h>
-#include <xsd2cc/xsd.h>
 #include <xsd2cc/application.h>
 #include <xsd2cc/complex_type.h>
 #include <xsd2cc/utility.h>
+#include <xsd2cc/xml_document.h>
+#include <xsd2cc/xsd.h>
 #include <iostream>
-
 
 using namespace xsd2cc;
 
-int 
-main(int argc, char *argv[])
-{
+int main(int argc, char* argv[]) {
   Application app(argc, argv);
 
   XmlDocument doc;
@@ -45,8 +41,7 @@ main(int argc, char *argv[])
 
   std::cout << "---------------------------------------------" << std::endl;
   std::cout << "@@@@ generate types" << std::endl;
-  if (!xsd.CreateInterface() || !xsd.CreateImplementation())
-    return -1;
+  if (!xsd.CreateInterface() || !xsd.CreateImplementation()) return -1;
   std::cout << "---------------------------------------------" << std::endl;
   std::cout << "@@@@ view_xsd" << std::endl;
 
@@ -64,4 +59,3 @@ main(int argc, char *argv[])
 
   return 0;
 }
-

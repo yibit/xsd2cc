@@ -18,40 +18,37 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #include <xsd2cc/application.h>
 #include <xsd2cc/element.h>
-#include <xsd2cc/xml_node.h>
-#include <xsd2cc/xsd.h>
-#include <xsd2cc/type_base.h>
 #include <xsd2cc/simple_type.h>
 #include <xsd2cc/split.h>
+#include <xsd2cc/type_base.h>
+#include <xsd2cc/xml_node.h>
+#include <xsd2cc/xsd.h>
 #include <iostream>
-
 
 namespace xsd2cc {
 
-Element::Element(const Xsd& xsd, 
-                 const XmlNode& node, 
-                 bool in_sequence, 
-                 bool in_choice, 
-                 const std::string& name, 
+Element::Element(const Xsd& xsd, const XmlNode& node, bool in_sequence,
+                 bool in_choice, const std::string& name,
                  const std::string& ns_prefix)
-    : TypeBase(xsd, node, ns_prefix, ""), 
+    : TypeBase(xsd, node, ns_prefix, ""),
       app_(xsd.GetApplication()),
-      name_(!name.empty() ? name: node.PropertyExists("name") ? node.GetProperty("name") : ""),
-      minOccurs_(node.PropertyExists("minOccurs") ? atoi(node.GetProperty("minOccurs").c_str()) : 1), 
+      name_(!name.empty()
+                ? name
+                : node.PropertyExists("name") ? node.GetProperty("name") : ""),
+      minOccurs_(node.PropertyExists("minOccurs")
+                     ? atoi(node.GetProperty("minOccurs").c_str())
+                     : 1),
       maxOccurs_(1),
-      has_default_(false)
-{
-
+      has_default_(false) {
   if (node.PropertyExists("type")) {
     std::string type = node.GetProperty("type");
     SetType(type);
 
   } else if (node.PropertyExists("ref")) {
     name_ = node.GetProperty("ref");
-    XmlNode n = xsd.GetElement( name_ );
+    XmlNode n = xsd.GetElement(name_);
 
     if (n && n.PropertyExists("type")) {
       std::string type = n.GetProperty("type");
@@ -89,9 +86,7 @@ Element::Element(const Xsd& xsd,
   base_type_ = t;
 }
 
-
-const std::string Element::Documentation() const
-{
+const std::string Element::Documentation() const {
   XmlNode n(node_, "annotation");
 
   if (n) {
@@ -105,15 +100,9 @@ const std::string Element::Documentation() const
   return "";
 }
 
+void Element::CreateInterface(FILE* file) const {}
 
-void Element::CreateInterface(FILE *file) const
-{
-
-}
-
-
-const std::string Element::CType_decl() const
-{
+const std::string Element::CType_decl() const {
   std::string t = TypeBase::CType();
   if (IsSimpleType()) {
     XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
@@ -128,9 +117,7 @@ const std::string Element::CType_decl() const
   return t;
 }
 
-
-const std::string Element::CType_in() const
-{
+const std::string Element::CType_in() const {
   std::string t = TypeBase::CType();
   if (IsSimpleType()) {
     XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
@@ -154,9 +141,7 @@ const std::string Element::CType_in() const
   return t;
 }
 
-
-const std::string Element::CType_out() const
-{
+const std::string Element::CType_out() const {
   std::string t = TypeBase::CType();
   if (IsSimpleType()) {
     XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
@@ -179,73 +164,49 @@ const std::string Element::CType_out() const
   return t;
 }
 
+const std::string Element::CName() const { return Split(name_).CName; }
 
-const std::string Element::CName() const
-{
-  return Split(name_).CName;
-}
+const std::string Element::CName1up() const { return Split(name_).CName1up; }
 
-
-const std::string Element::CName1up() const
-{
-  return Split(name_).CName1up;
-}
-
-
-const std::string Element::DefaultValue() const
-{
+const std::string Element::DefaultValue() const {
   if (IsBuiltin()) {
     std::string t = Split(type_).CName;
     if (TypeClass() == kNUMBER) {
       return "0";
     }
-
   }
 
   return "";
 }
 
-
-bool Element::IsComplexType() const
-{
+bool Element::IsComplexType() const {
   if (IsBuiltin()) {
     return false;
   }
 
   XmlNode n = xsd_.FindComplexType(ns_href_, type_);
-  if (!n.empty()) {  
+  if (!n.empty()) {
     return true;
   }
 
   return false;
 }
 
-
-bool Element::IsSimpleType() const
-{
+bool Element::IsSimpleType() const {
   if (IsBuiltin()) {
     return false;
   }
 
   XmlNode n = xsd_.FindSimpleType(ns_href_, type_);
-  if (!n.empty()) {  
+  if (!n.empty()) {
     return true;
   }
 
   return false;
 }
 
+bool Element::HasDefault() const { return has_default_; }
 
-bool Element::HasDefault() const
-{
-  return has_default_;
-}
+const std::string& Element::Default() const { return default_; }
 
-
-const std::string& Element::Default() const
-{
-  return default_;
-}
-
-} // namespace xsd2cc
-
+}  // namespace xsd2cc

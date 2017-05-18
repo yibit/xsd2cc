@@ -18,16 +18,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_COMPLEX_H_INCLUDED_
 #define XSD2CC_COMPLEX_H_INCLUDED_
 
-
+#include <xsd2cc/type_base.h>
 #include <list>
 #include <map>
 #include <string>
-#include <xsd2cc/type_base.h>
-
 
 namespace xsd2cc {
 
@@ -36,9 +33,7 @@ class XmlNode;
 
 class ComplexType : public TypeBase {
  public:
-  ComplexType(const Xsd& xsd, 
-              const XmlNode& node, 
-              const std::string& name = "", 
+  ComplexType(const Xsd& xsd, const XmlNode& node, const std::string& name = "",
               const std::string& ns_prefix = "");
 
   ~ComplexType() {}
@@ -52,8 +47,8 @@ class ComplexType : public TypeBase {
   std::list<std::pair<std::string, XmlNode> > GetMembers() const;
   std::list<std::pair<std::string, XmlNode> > GetAttributes() const;
 
-  void CreateInterface(FILE *file, int lvl = 1) const;
-  void CreateImplementation(FILE *file) const;
+  void CreateInterface(FILE* file, int lvl = 1) const;
+  void CreateImplementation(FILE* file) const;
 
   const std::string CName() const;
 
@@ -70,18 +65,21 @@ class ComplexType : public TypeBase {
   static void ShowGenerated();
 
  private:
+  void reset_members(std::list<std::pair<std::string, XmlNode> >& members,
+                     std::list<std::pair<std::string, XmlNode> >& attrs,
+                     FILE* file) const;
 
-  void reset_members(std::list<std::pair<std::string, XmlNode> >& members, 
-                     std::list<std::pair<std::string, XmlNode> >& attrs, FILE *file) const;
+  void clear_members(std::list<std::pair<std::string, XmlNode> >& members,
+                     std::list<std::pair<std::string, XmlNode> >& attrs,
+                     FILE* file) const;
 
-  void clear_members(std::list<std::pair<std::string, XmlNode> >& members, 
-                     std::list<std::pair<std::string, XmlNode> >& attrs, FILE *file) const;
-
-  void from_xml(std::list<std::pair<std::string, XmlNode> >& members, 
-              std::list<std::pair<std::string, XmlNode> >& attrs, FILE *file) const;
+  void from_xml(std::list<std::pair<std::string, XmlNode> >& members,
+                std::list<std::pair<std::string, XmlNode> >& attrs,
+                FILE* file) const;
 
   void to_string(std::list<std::pair<std::string, XmlNode> >& members,
-                 std::list<std::pair<std::string, XmlNode> >& attrs, FILE *file) const;
+                 std::list<std::pair<std::string, XmlNode> >& attrs,
+                 FILE* file) const;
 
   XmlNode Start() const;
 
@@ -97,7 +95,6 @@ class ComplexType : public TypeBase {
   static std::map<std::string, bool> b_generated_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_COMPLEX_H_INCLUDED_
-
+#endif  // XSD2CC_COMPLEX_H_INCLUDED_

@@ -18,14 +18,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_PARSE_H_INCLUDED_
 #define XSD2CC_PARSE_H_INCLUDED_
 
-
 #include <stddef.h>
 #include <string>
-
 
 namespace xsd2cc {
 
@@ -44,7 +41,7 @@ class Parse {
 
   std::string getword();
   void getword(std::string&);
-  void getword(std::string&, std::string&,int);
+  void getword(std::string&, std::string&, int);
   std::string getrest();
   void getrest(std::string&);
   long getvalue();
@@ -52,13 +49,9 @@ class Parse {
   int getwordlen();
   int getrestlen();
 
-  void enablebreak(const char c) {
-    enable_ = c;
-  }
+  void enablebreak(const char c) { enable_ = c; }
 
-  void disablebreak(const char c) {
-    disable_ = c;
-  }
+  void disablebreak(const char c) { disable_ = c; }
 
   void getline();
   void getline(std::string&);
@@ -77,7 +70,6 @@ class Parse {
   std::string ord_;
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_PARSE_H_INCLUDED_
-
+#endif  // XSD2CC_PARSE_H_INCLUDED_

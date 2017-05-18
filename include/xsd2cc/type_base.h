@@ -18,38 +18,27 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_TYPE_BASE_H_INCLUDED_
 #define XSD2CC_TYPE_BASE_H_INCLUDED_
 
-
 #include <string>
-
 
 namespace xsd2cc {
 
 class Xsd;
 class XmlNode;
 
-enum BuiltType {
-  kUNKNOWN = 0,
-  kSTRING,
-  kNUMBER,
-  kBOOLEAN, 
-  kCOMPLEX
-};
+enum BuiltType { kUNKNOWN = 0, kSTRING, kNUMBER, kBOOLEAN, kCOMPLEX };
 
 class TypeBase {
  public:
-  TypeBase(const Xsd& xsd,
-           const XmlNode& node, 
-           const std::string& ns_prefix, 
+  TypeBase(const Xsd& xsd, const XmlNode& node, const std::string& ns_prefix,
            const std::string& type);
 
   ~TypeBase() {}
 
   const std::string& Type() const { return type_; }
-  const std::string Documentation(const XmlNode& ) const;
+  const std::string Documentation(const XmlNode&) const;
   const std::string CType() const;
 
   const std::string& NsHref() const { return ns_href_; }
@@ -71,7 +60,6 @@ class TypeBase {
   void SetCType();
 };
 
-} // namespace xsd2cc
+}  // namespace xsd2cc
 
-#endif // XSD2CC_TYPE_BASE_H_INCLUDED_
-
+#endif  // XSD2CC_TYPE_BASE_H_INCLUDED_

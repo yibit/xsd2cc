@@ -18,77 +18,54 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-#include <xsd2cc/xml_node.h>
-#include <xsd2cc/xml_document.h>
 #include <xsd2cc/utility.h>
+#include <xsd2cc/xml_document.h>
+#include <xsd2cc/xml_node.h>
 #include <iostream>
-
 
 namespace xsd2cc {
 
-XmlNode::XmlNode(XmlDocument& doc)
-    : doc_(doc), current_(GetRootElement())
-{
-
-}
-
+XmlNode::XmlNode(XmlDocument& doc) : doc_(doc), current_(GetRootElement()) {}
 
 XmlNode::XmlNode(XmlDocument& doc, const std::string& nodepath)
-    : doc_(doc), current_(GetRootElement())
-{
+    : doc_(doc), current_(GetRootElement()) {
   xmlNodePtr p = GetFirstElement(nodepath);
   SetCurrent(p);
 }
 
-
 XmlNode::XmlNode(const XmlNode& node, const std::string& nodepath)
-    : doc_(node.GetDocument()), current_(node)
-{
+    : doc_(node.GetDocument()), current_(node) {
   xmlNodePtr p = GetFirstElement(node, nodepath);
   SetCurrent(p);
 }
 
+XmlNode::XmlNode(XmlDocument& doc, xmlNodePtr ptr) : doc_(doc), current_(ptr) {}
 
-XmlNode::XmlNode(XmlDocument& doc, xmlNodePtr ptr)
-    : doc_(doc), current_(ptr)
-{
+XmlNode::XmlNode(xmlDocPtr doc, xmlNodePtr ptr) : doc_(doc), current_(ptr) {}
 
-}
-
-
-XmlNode::XmlNode(xmlDocPtr doc, xmlNodePtr ptr)
-    : doc_(doc), current_(ptr)
-{
-
-}
-
-
-xmlNodePtr XmlNode::GetRootElement() const
-{
+xmlNodePtr XmlNode::GetRootElement() const {
   current_ = xmlDocGetRootElement(doc_);
   return current_;
 }
 
-
-std::string XmlNode::GetProperty(const std::string& name) const
-{
-  xmlChar *p = current_ ? xmlGetProp(current_, (const xmlChar *)name.c_str()) : NULL;
+std::string XmlNode::GetProperty(const std::string& name) const {
+  xmlChar* p =
+      current_ ? xmlGetProp(current_, (const xmlChar*)name.c_str()) : NULL;
   if (!p) {
-    std::cout << "Property '" + name + "' not found in node: " + GetNodeName() << std::endl;
+    std::cout << "Property '" + name + "' not found in node: " + GetNodeName()
+              << std::endl;
     return "";
   }
 
-  std::string str = (char *)p;
+  std::string str = (char*)p;
   xmlFree(p);
 
   return Utility::FromUtf8(str);
 }
 
-
-bool XmlNode::PropertyExists(const std::string& name) const
-{
-  xmlChar *p = current_ ? xmlGetProp(current_, (const xmlChar *)name.c_str()) : NULL;
+bool XmlNode::PropertyExists(const std::string& name) const {
+  xmlChar* p =
+      current_ ? xmlGetProp(current_, (const xmlChar*)name.c_str()) : NULL;
   if (!p) {
     return false;
   }
@@ -98,28 +75,22 @@ bool XmlNode::PropertyExists(const std::string& name) const
   return true;
 }
 
-
-xmlNodePtr XmlNode::GetChildrenNode() const
-{
+xmlNodePtr XmlNode::GetChildrenNode() const {
   current_ = current_ ? current_->xmlChildrenNode : NULL;
   return current_;
 }
 
-
-xmlNodePtr XmlNode::GetNextNode() const
-{
+xmlNodePtr XmlNode::GetNextNode() const {
   do {
     current_ = current_ ? current_->next : NULL;
-  } while (current_ && xmlIsBlankNode( current_ ));
+  } while (current_ && xmlIsBlankNode(current_));
 
   return current_;
 }
 
-
-const std::string& XmlNode::GetNodeName() const
-{
+const std::string& XmlNode::GetNodeName() const {
   if (current_) {
-    current_name_ = Utility::FromUtf8((char *)current_->name);
+    current_name_ = Utility::FromUtf8((char*)current_->name);
   } else {
     current_name_ = "";
   }
@@ -127,16 +98,14 @@ const std::string& XmlNode::GetNodeName() const
   return current_name_;
 }
 
-
-const std::string& XmlNode::GetContent() const
-{
+const std::string& XmlNode::GetContent() const {
   content_ = "";
 
   if (current_) {
     xmlNodePtr p = current_;
     xmlNodePtr p2 = GetChildrenNode();
     if (p2 && p2->content) {
-      content_ = Utility::FromUtf8((char *)p2->content);
+      content_ = Utility::FromUtf8((char*)p2->content);
     }
     SetCurrent(p);
   }
@@ -144,9 +113,7 @@ const std::string& XmlNode::GetContent() const
   return content_;
 }
 
-
-xmlNsPtr XmlNode::GetNodeNs() const
-{
+xmlNsPtr XmlNode::GetNodeNs() const {
   if (current_) {
     return current_->ns;
   }
@@ -154,11 +121,9 @@ xmlNsPtr XmlNode::GetNodeNs() const
   return NULL;
 }
 
-
-const std::string& XmlNode::GetNodeNsPrefix() const
-{
+const std::string& XmlNode::GetNodeNsPrefix() const {
   if (current_ && current_->ns && current_->ns->prefix) {
-    ns_prefix_ = Utility::FromUtf8((char *)current_->ns->prefix);
+    ns_prefix_ = Utility::FromUtf8((char*)current_->ns->prefix);
   } else {
     ns_prefix_ = "";
   }
@@ -166,11 +131,9 @@ const std::string& XmlNode::GetNodeNsPrefix() const
   return ns_prefix_;
 }
 
-
-const std::string& XmlNode::GetNodeNsHref() const
-{
+const std::string& XmlNode::GetNodeNsHref() const {
   if (current_ && current_->ns && current_->ns->href) {
-    ns_href_ = Utility::FromUtf8((char *)current_->ns->href);
+    ns_href_ = Utility::FromUtf8((char*)current_->ns->href);
   } else {
     ns_href_ = "";
   }
@@ -178,9 +141,7 @@ const std::string& XmlNode::GetNodeNsHref() const
   return ns_href_;
 }
 
-
-xmlNodePtr XmlNode::GetFirstElement(const std::string& name) const
-{
+xmlNodePtr XmlNode::GetFirstElement(const std::string& name) const {
   if (lookup_name_.empty()) {
     lookup_name_ = name;
   }
@@ -197,10 +158,8 @@ xmlNodePtr XmlNode::GetFirstElement(const std::string& name) const
   return NULL;
 }
 
-
 xmlNodePtr XmlNode::GetFirstElement(xmlNodePtr base,
-                                    const std::string& name) const
-{
+                                    const std::string& name) const {
   if (lookup_name_.empty()) {
     lookup_name_ = name;
   }
@@ -218,9 +177,8 @@ xmlNodePtr XmlNode::GetFirstElement(xmlNodePtr base,
   return NULL;
 }
 
-
-xmlNodePtr XmlNode::GetNextElement(xmlNodePtr p,const std::string& name) const
-{
+xmlNodePtr XmlNode::GetNextElement(xmlNodePtr p,
+                                   const std::string& name) const {
   SetCurrent(p);
   p = GetNextNode();
   while (p) {
@@ -234,15 +192,9 @@ xmlNodePtr XmlNode::GetNextElement(xmlNodePtr p,const std::string& name) const
   return NULL;
 }
 
+XmlNode::operator xmlNodePtr() const { return current_; }
 
-XmlNode::operator xmlNodePtr() const
-{
-  return current_;
-}
-
-
-XmlNode XmlNode::operator[](const std::string& name) const
-{
+XmlNode XmlNode::operator[](const std::string& name) const {
   xmlNodePtr p0 = current_;
   xmlNodePtr p = GetFirstElement(current_, name);
   SetCurrent(p0);
@@ -253,9 +205,7 @@ XmlNode XmlNode::operator[](const std::string& name) const
   return XmlNode();
 }
 
-
-bool XmlNode::Exists(const std::string& name) const
-{
+bool XmlNode::Exists(const std::string& name) const {
   xmlNodePtr p0 = current_;
   xmlNodePtr p = GetFirstElement(current_, name);
   SetCurrent(p0);
@@ -266,9 +216,7 @@ bool XmlNode::Exists(const std::string& name) const
   return true;
 }
 
-
-void XmlNode::operator++() const
-{
+void XmlNode::operator++() const {
   GetNextNode();
   while (current_) {
     if (lookup_name_ == GetNodeName()) {
@@ -276,18 +224,16 @@ void XmlNode::operator++() const
     }
     GetNextNode();
   }
-
 }
 
-
-std::map<std::string, std::string> XmlNode::GetNsMap() const
-{
-  xmlNsPtr *p = xmlGetNsList(doc_, current_);
+std::map<std::string, std::string> XmlNode::GetNsMap() const {
+  xmlNsPtr* p = xmlGetNsList(doc_, current_);
   std::map<std::string, std::string> vec;
 
   for (int i = 0; p && p[i]; ++i) {
-    std::string href = Utility::FromUtf8((char *)p[i]->href);
-    std::string prefix = p[i]->prefix ? Utility::FromUtf8((char *)p[i]->prefix) : "";
+    std::string href = Utility::FromUtf8((char*)p[i]->href);
+    std::string prefix =
+        p[i]->prefix ? Utility::FromUtf8((char*)p[i]->prefix) : "";
     vec[prefix] = href;
     if (!p[i]->next) {
       break;
@@ -297,15 +243,14 @@ std::map<std::string, std::string> XmlNode::GetNsMap() const
   return vec;
 }
 
-
-std::map<std::string, std::string> XmlNode::GetNsMapRe() const
-{
-  xmlNsPtr *p = xmlGetNsList(doc_, current_);
+std::map<std::string, std::string> XmlNode::GetNsMapRe() const {
+  xmlNsPtr* p = xmlGetNsList(doc_, current_);
   std::map<std::string, std::string> vec;
 
   for (int i = 0; p && p[i]; ++i) {
-    std::string href = Utility::FromUtf8((char *)p[i]->href);
-    std::string prefix = p[i]->prefix ? Utility::FromUtf8((char *)p[i]->prefix) : "";
+    std::string href = Utility::FromUtf8((char*)p[i]->href);
+    std::string prefix =
+        p[i]->prefix ? Utility::FromUtf8((char*)p[i]->prefix) : "";
     vec[href] = prefix;
     if (!p[i]->next) {
       break;
@@ -315,13 +260,10 @@ std::map<std::string, std::string> XmlNode::GetNsMapRe() const
   return vec;
 }
 
-
-const std::string XmlNode::FindProperty(const std::string& propname, 
-                                        bool climb) const
-{
+const std::string XmlNode::FindProperty(const std::string& propname,
+                                        bool climb) const {
   while (current_) {
-
-   if (PropertyExists(propname)) {
+    if (PropertyExists(propname)) {
       return GetProperty(propname);
     }
 
@@ -335,5 +277,4 @@ const std::string XmlNode::FindProperty(const std::string& propname,
   return "";
 }
 
-} // namespace xsd2cc
-
+}  // namespace xsd2cc

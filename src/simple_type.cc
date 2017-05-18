@@ -18,27 +18,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
+#include <xsd2cc/simple_type.h>
 #include <xsd2cc/split.h>
+#include <xsd2cc/type_base.h>
 #include <xsd2cc/xml_node.h>
 #include <xsd2cc/xsd.h>
-#include <xsd2cc/simple_type.h>
-#include <xsd2cc/type_base.h>
-
 
 namespace xsd2cc {
 
-SimpleType::SimpleType(const Xsd& xsd, 
-                       const XmlNode& node, 
-                       const std::string& name, 
-                       const std::string& ns_prefix)
-    : TypeBase(xsd, node, ns_prefix, Split(name).Type), 
-      name_(!name.empty() ? name : node.PropertyExists("name") ? node.GetProperty("name") : "")
-{
-
+SimpleType::SimpleType(const Xsd& xsd, const XmlNode& node,
+                       const std::string& name, const std::string& ns_prefix)
+    : TypeBase(xsd, node, ns_prefix, Split(name).Type),
+      name_(!name.empty()
+                ? name
+                : node.PropertyExists("name") ? node.GetProperty("name") : "") {
   XmlNode n(node, "restriction");
   if (n) {
-
     if (n.PropertyExists("base")) {
       std::string type = n.GetProperty("base");
       SetType(type);
@@ -57,34 +52,24 @@ SimpleType::SimpleType(const Xsd& xsd,
       pattern_values_.push_back(value);
       ++n3;
     }
-
   }
-
 }
 
-
-const std::string SimpleType::Documentation() const
-{
+const std::string SimpleType::Documentation() const {
   return TypeBase::Documentation(node_);
 }
 
-
-void SimpleType::CreateInterface(FILE *file, int lvl) const
-{
+void SimpleType::CreateInterface(FILE* file, int lvl) const {
   for (int i = 0; i < lvl; i++) {
     fprintf(file, "\t");
   }
 
-  fprintf(file, "typedef %s %s;\n\n", CType().c_str(), Split(name_).CName.c_str());
+  fprintf(file, "typedef %s %s;\n\n", CType().c_str(),
+          Split(name_).CName.c_str());
 
   // check code here
 }
 
+const std::string SimpleType::CType() const { return TypeBase::CType(); }
 
-const std::string SimpleType::CType() const
-{
-  return TypeBase::CType();
-}
-
-} //namespace xsd2cc
-
+}  // namespace xsd2cc

@@ -18,29 +18,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 #ifndef XSD2CC_UTILITY_H_INCLUDED_
 #define XSD2CC_UTILITY_H_INCLUDED_
 
-
 #include <inttypes.h>
 #include <string>
-
 
 namespace xsd2cc {
 
 class Utility {
  public:
-
- class Path {
-  public:
-    Path(const std::string& );
+  class Path {
+   public:
+    Path(const std::string&);
 
     const std::string& GetPath() const { return path_; }
     const std::string& GetFilename() const { return file_; }
     const std::string& GetExtension() const { return ext_; }
 
-  private:
+   private:
     std::string path_;
     std::string file_;
     std::string ext_;
@@ -55,16 +51,16 @@ class Utility {
 
   static std::string ToLower(const std::string& str);
   static std::string ToUpper(const std::string& str);
-  static std::string ToString(double d);;
+  static std::string ToString(double d);
+  ;
 
-  static const std::string FromUtf8(const std::string& );
+  static const std::string FromUtf8(const std::string&);
   static const std::string ToUtf8(const std::string&);
 
   static const Path CurrentDirectory();
   static bool ChangeDirectory(const Path& to_dir);
 };
 
-} // namespace
+}  // namespace
 
-#endif // XSD2CC_UTILITY_H_INCLUDED_
-
+#endif  // XSD2CC_UTILITY_H_INCLUDED_
